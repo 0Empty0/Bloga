@@ -15,7 +15,57 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id          Int     @id @default(autoincrement())
+  email       String  @unique
+  password    String
+  name        String?
+  image       String?
+  description String?
+  quote       String?
+  timezone    String?
+
+  Post Post[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Comment   Comment[]
+
+  @@map("users")
+}
+
+model Post {
+  id         Int     @id @default(autoincrement())
+  title      String
+  content    String
+  image      String?
+  timeToRead Int
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Comment   Comment[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id      Int    @id @default(autoincrement())
+  content String
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  postId Int
+  post   Post @relation(fields: [postId], references: [id])
+
+  parentCommentId Int?
+  parentComment   Comment?  @relation("replies", fields: [parentCommentId], references: [id])
+  replies         Comment[] @relation("replies")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("comments")
 }
