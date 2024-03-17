@@ -14,6 +14,6 @@ export default function Root({
 }
 
 export const metadata: Metadata = {
-  title: "i18n within app directory - Vercel Examples",
-  description: "How to do i18n in Next.js 13 within app directory",
+  title: "Bloga",
+  description: "Bloga - blogging app"
 };
